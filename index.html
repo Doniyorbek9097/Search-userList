@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+<style>
+	.userList{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.card{
+		width: 200px;
+		height: 300px;
+		box-shadow: 0 0 5px 10px #0000000f;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		text-align: center;
+		gap: 30px;
+		padding: 10px;
+	}
+	.card img{
+		width: 100%;
+	}
+
+</style>
+
+</head>
+<body>
+<div class="container">
+	
+<button id="btn">search</button>
+<input type="text" id="input"> 
+<ul class="userList"></ul>
+
+</div>
+<script type="text/javascript">
+
+	fetch("https://randomuser.me/api/?results=20")
+	  .then(res => res.json())
+  		.then(data => AllUsers(data.results));
+		
+   input.onkeyup = function () {
+  	let val = document.querySelector("#input").value;
+  	let cards = document.querySelectorAll(".card");
+  	for(card of cards) {
+  		
+  		if(card.querySelector('span').innerText.toLowerCase().includes(val.toLowerCase())){
+  			card.style.display = 'block';
+  		} else {
+  			card.style.display = 'none';
+  		}
+  	}
+}
+
+function AllUsers(users) {
+	users.map((user) => {
+		let card = `
+		<div class="card">
+			<img class="avatar" src=${user.picture.large} alt="">
+			<div class="userName">
+				<b>${user.name.title}</b><br>
+				<span>${user.name.first}</span>
+				<span>${user.name.last}</span>
+			</div>
+		</div>`;
+
+		var userList = document.querySelector(".userList");
+		userList.innerHTML += card;
+	});
+}
+
+
+	</script>
+	
+</body>
+</html>
